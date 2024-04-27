@@ -54,7 +54,7 @@ function updateOutput(permutation, output, totalPermutations, executionTime) {
   totalPermutationsElement.textContent = totalPermutations;
 
   const executionTimeElement = document.getElementById('executionTime');
-  executionTimeElement.textContent = `${executionTime.toFixed(2)} seconds`;
+  executionTimeElement.textContent = `${executionTime.toFixed(2)} segundos`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -86,15 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
     updateOutput(allPermutations[permutationIndex], output, totalPermutations, 0);
 
     window.permutationInterval = setInterval(() => {
-      permutationIndex = (permutationIndex + 1) % totalPermutations;
+      permutationIndex++;
+      if (permutationIndex >= totalPermutations) {
+        clearInterval(window.permutationInterval);
+        return;
+      }
+
       const currentPermutation = allPermutations[permutationIndex];
       drawBits(currentPermutation.split(''), circleSVG);
       updateOutput(currentPermutation, output, totalPermutations, (performance.now() - startTime) / 1000);
-
-      // Si hemos mostrado todas las permutaciones, detener el intervalo
-      if (permutationIndex === 0) {
-        clearInterval(window.permutationInterval);
-      }
     }, 1000);
   });
 });
